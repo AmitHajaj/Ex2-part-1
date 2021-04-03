@@ -25,16 +25,18 @@ TEST_CASE("Good Board code") {
     CHECK(board.read(0, 0, Direction::Vertical, 5) == string("Hello"));
 
     board.post(2, 0, Direction::Horizontal, "I am Amit Hajaj");
+    board.show();
+    CHECK(board.read(2, 0, Direction::Horizontal, 15) == string("I am Amit Hajaj"));
     CHECK(board.read(0, 0, Direction::Vertical, 5) == string("HeIlo"));
-    CHECK(board.read(2, 5, Direction::Vertical, 10) == string("Amit Hajaj"));
+    CHECK(board.read(2, 5, Direction::Horizontal, 10) == string("Amit Hajaj"));
 
-    board.post(0, 0, Direction::Horizontal, "This is a test for line drop\nIf this sentence is in line 2, OK");
+    board.post(0, 0, Direction::Horizontal, "This is a test for line drop If this sentence is in line 2, OK");
     CHECK(board.read(0, 0, Direction::Horizontal, 28) == string("This is a test for line drop"));
-    CHECK(board.read(1, 0, Direction::Horizontal, 33) == string("If this sentence is in line 2, OK"));
+    CHECK(board.read(0, 29, Direction::Horizontal, 33) == string("If this sentence is in line 2, OK"));
 
     // Because of the last post we make our board bigger. 
-    CHECK(board.read(0, 28, Direction::Horizontal, 5)== string("_____"));
-    CHECK(board.read(2, 0, Direction::Horizontal, 28)== string("Amit Hajaj__________________"));
+    CHECK(board.read(0, 28, Direction::Horizontal, 5)== string(" If t"));
+    CHECK(board.read(2, 5, Direction::Horizontal, 28)== string("Amit Hajaj__________________"));
     
 
 }
@@ -77,8 +79,4 @@ TEST_CASE("Bad Board code-> empty post on a new space."){
     CHECK_THROWS(board.read(0, 0, Direction::Horizontal, 6));
 }
 
-
-TEST_CASE("Bad Board code-> 8 digit's, in range, but negative value."){
-    ariel::Board board;
-}
 
